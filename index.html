@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kira, Will You Be My Valentine? 💖</title>
+
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      color: white;
+    }
+
+    .card {
+      position: relative;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.22);
+      padding: 45px;
+      border-radius: 22px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+      max-width: 430px;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1.05rem;
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+
+    .countdown {
+      font-size: 1.1rem;
+      margin-bottom: 28px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    button {
+      font-size: 1.1rem;
+      padding: 12px 26px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px;
+      transition: all 0.2s ease;
+    }
+
+    #yesBtn {
+      background: white;
+      color: #ff5e7e;
+      font-weight: bold;
+    }
+
+    #yesBtn:hover {
+      transform: scale(1.05);
+    }
+
+    #noBtn {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+      position: relative;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Worship-style background music -->
+  <audio id="loveMusic" loop>
+    <source src="love-worship-instrumental.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    <h1>Kira, will you be my Valentine? 💕</h1>
+
+    <p>
+      No pressure — just intentional time,
+      good conversations, laughs,
+      and keeping Jesus at the center 💒✨
+    </p>
+
+    <div class="countdown" id="countdown">
+      Counting down to Valentine’s Day… ⏳
+    </div>
+
+    <button id="yesBtn">Yes 💖</button>
+    <button id="noBtn">No 🙃</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const music = document.getElementById("loveMusic");
+    const countdownEl = document.getElementById("countdown");
+
+    /* 🎶 Music autoplay handling */
+    window.addEventListener("load", () => {
+      music.volume = 0.5;
+      music.play().catch(() => {});
+    });
+
+    document.body.addEventListener("click", () => {
+      if (music.paused) music.play();
+    }, { once: true });
+
+    /* 😅 Dodge NO button */
+    noBtn.addEventListener("mouseover", () => {
+      const x = Math.random() * 220 - 110;
+      const y = Math.random() * 220 - 110;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    /* 💘 YES click */
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="
+          display:flex;
+          height:100vh;
+          align-items:center;
+          justify-content:center;
+          flex-direction:column;
+          background:linear-gradient(135deg, #ff9a9e, #fad0c4);
+          color:white;
+          font-family:Arial;
+          text-align:center;
+        ">
+          <h1>It’s a date, Kira 💘🙌</h1>
+          <p>I’m really grateful you said yes 🥹</p>
+          <p>Proverbs 16:3 — committed ✨</p>
+        </div>
+      `;
+    });
+
+    /* ⏰ Countdown to Valentine’s Day */
+    function updateCountdown() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const valentinesDay = new Date(`February 14, ${year} 00:00:00`);
+
+      if (now > valentinesDay) {
+        valentinesDay.setFullYear(year + 1);
+      }
+
+      const diff = valentinesDay - now;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      countdownEl.innerHTML =
+        `⏳ ${days}d ${hours}h ${minutes}m ${seconds}s until Valentine’s Day 💖`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    /* 💕 Floating hearts */
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+      heart.style.fontSize = Math.random() * 10 + 16 + "px";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 7000);
+    }
+
+    setInterval(createHeart, 400);
+  </script>
+
+</body>
+</html>
